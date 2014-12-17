@@ -1,20 +1,26 @@
 package com.cevaris.validation
 
-import org.scalacheck.Properties
+import org.specs2.scalaz.ValidationMatchers._
+import org.scalacheck._
 import org.scalacheck.Prop.forAll
 
-import org.specs2.scalaz.ValidationMatchers._
-import org.specs2.mutable.Specification
+import com.cevaris.SpecTest
 
-object StringsSpec extends Specification {
+
+class StringsSpec extends SpecTest {
+
+  val parseValRes = forAll { (a: Int) =>
+    Strings.parseVal(a.toString) must beSome[Int](a)
+  }
 
   "Strings object" should {
-    "properly isEven" in {
-
+    "properly detect if isEven" in {
       Strings.isEven(2) must beSuccessful
       Strings.isEven(3) must not be successful
-      
     }
+
+    "properly parseVal" in check(parseValRes)
+
   }
 
 }
