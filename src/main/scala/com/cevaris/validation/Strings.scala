@@ -1,6 +1,8 @@
+package com.cevaris.validation
+
 import scalaz._, Scalaz._
 
-object Num {
+object Strings {
 
   sealed trait NumError
   case class NumberNotEven(s: String) extends NumError
