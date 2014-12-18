@@ -12,19 +12,15 @@ object Strings {
   case class NumberNotEven(s: String) extends NumError
 
   val zeroTo100i: Process[Task, Int] = Process.range(0,100)
-  
-  def splitString(s: String): List[String] = s.split(" ").toList
 
-  def parseList[A](parser: (String => A))(s: String): ValidationNel[NumError, List[A]] =
-    splitString(s).map(parser).successNel[NumError]
+  def splitStringBy(delimeter: String)(s: String): List[String] = s.split(delimeter).toList
+  def splitBySpace(s: String): List[String] = splitStringBy(" ")(s)
+  def splitByComma(s: String): List[String] = splitStringBy(",")(s)
+  def splitByTab(s: String): List[String] = splitStringBy("\t")(s)
 
-  // def parseList[A](s: String, parser: (String => A)): ValidationNel[NumError, List[A]] =
-  //   splitString(s).map(parser).successNel[NumError]
-    
-  def parseVal(s: String): Option[Int] = parseInt(s) match {
-    case Success(a) => Some(a)
-    case Failure(e) => None
-  }
+  def parseList[A](parser: (String => A))(s: String): List[A] = splitBySpace(s).map(parser)
+      
+  def parseVal[A](parser: (String => Validation[NumberFormatException, A]))(s: String): Validation[NumberFormatException, A] = parser(s)
 
   def isEven(n: Int): Validation[NumError, Int] = n % 2 == 0 match {
     case true  => Success(n)
