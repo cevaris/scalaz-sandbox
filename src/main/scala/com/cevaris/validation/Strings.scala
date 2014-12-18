@@ -28,15 +28,6 @@ object Strings {
   def isChar(ci: Int): Boolean =
     (ci >= 65 && ci <= 90) || (ci >= 97 && ci <= 122)
 
-  // def parseLettersSum(sc: String): Validation[String,Int] = {
-  //   val ls = sc.filter(x => isChar(x))
-  //   if(ls.length == sc.length){
-  //     Success(ls.sum)
-  //   } else {
-  //     Failure(s"Failed to parse $sc")
-  //   }
-  // }
-
   def parseLettersSum(sc: String): StringsError \/ Int = {
     val ls = sc.filter(isChar _)
     println(ls)
